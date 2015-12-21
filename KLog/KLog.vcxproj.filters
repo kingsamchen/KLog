@@ -12,5 +12,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="klog\klog_worker.cpp">
+      <Filter>klog</Filter>
+    </ClCompile>
+    <ClCompile Include="klog\klog.cpp">
+      <Filter>klog</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="klog\klog.h">
+      <Filter>klog</Filter>
+    </ClInclude>
+    <ClInclude Include="klog\klog_worker.h">
+      <Filter>klog</Filter>
+    </ClInclude>
+    <ClInclude Include="klog\basic_macros.h">
+      <Filter>klog</Filter>
+    </ClInclude>
+    <ClInclude Include="klog\basic_types.h">
+      <Filter>klog</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
