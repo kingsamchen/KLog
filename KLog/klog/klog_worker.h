@@ -22,6 +22,7 @@ namespace klog {
 
 class LogWorker {
 public:
+    // TODO: add rollsize for logfile.
     LogWorker(const PathString& log_file_path, std::chrono::seconds flush_interval);
 
     ~LogWorker();
