@@ -43,10 +43,12 @@ void ConfigureLogger(LogWorker* logger);
     klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_WARNING)
 #define COMPACT_LOG_ERROR \
     klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_ERROR)
-#define COMPACT_LOG_0 \
-    klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_ERROR)
 #define COMPACT_LOG_FATAL \
     klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_FATAL)
+#if defined(OS_WIN)
+#define COMPACT_LOG_0 \
+    klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_ERROR)
+#endif
 
 #define LOG_IS_ON(severity) \
     ((klog::LogSeverity::LOG_##severity) >= klog::GetMinSeverityLevel())
