@@ -28,11 +28,37 @@ enum class LogSeverity : int {
     LOG_FATAL
 };
 
+LogSeverity GetMinSeverityLevel();
+
 void SetMinSeverityLevel(LogSeverity min_severity);
 
 void ConfigureLogger(LogWorker* logger);
 
-// TODO: add convenient macros.
+// Surprisingly, a macro `ERROR` is defined as 0 in file <wingdi.h>, which is
+// included by <windows.h>, so we add a special macro to handle this peculiar
+// chaos, in case the file was included.
+#define COMPACT_LOG_INFO \
+    klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_INFO)
+#define COMPACT_LOG_WARNING \
+    klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_WARNING)
+#define COMPACT_LOG_ERROR \
+    klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_ERROR)
+#define COMPACT_LOG_0 \
+    klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_ERROR)
+#define COMPACT_LOG_FATAL \
+    klog::LogMessage(__FILE__, __LINE__, klog::LogSeverity::LOG_FATAL)
+
+#define LOG_IS_ON(severity) \
+    ((klog::LogSeverity::LOG_##severity) >= klog::GetMinSeverityLevel())
+#define LOG_STREAM(severity) \
+    COMPACT_LOG_##severity.stream()
+#define LAZY_STREAM(stream, condition) \
+    !(condition) ? (void)0 : klog::LogMessageVoidfy() & (stream)
+
+#define LOG(severity) \
+    LAZY_STREAM(LOG_STREAM(severity), LOG_IS_ON(severity))
+#define LOG_IF(severity, condition) \
+    LAZY_STREAM(LOG_STREAM(severity), LOG_IS_ON(severity) && (condition))
 
 class LogMessage {
 public:
@@ -54,6 +80,12 @@ private:
     int line_;
     LogSeverity severity_;
     std::ostringstream stream_;
+};
+
+// Used to suppress compiler warning or intellisense error.
+struct LogMessageVoidfy {
+    void operator&(const std::ostream&) const
+    {}
 };
 
 }   // namespace klog

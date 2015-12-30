@@ -59,6 +59,11 @@ constexpr auto EnumToUnderlying(E e)
 
 namespace klog {
 
+LogSeverity GetMinSeverityLevel()
+{
+    return g_min_severity_level;
+}
+
 void SetMinSeverityLevel(LogSeverity min_severity)
 {
     g_min_severity_level = min_severity;
