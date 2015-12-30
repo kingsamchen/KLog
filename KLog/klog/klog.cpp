@@ -5,8 +5,7 @@
 #include "klog/klog.h"
 
 #include <iomanip>
-
-#include <Windows.h>
+#include <thread>
 
 #include "klog/klog_worker.h"
 
@@ -75,7 +74,7 @@ LogMessage::LogMessage(const char* file, int line, LogSeverity severity_level)
 {
     stream_ << "[";
     OutputNowTimestamp(stream_);
-    stream_ << " " << GetCurrentThreadId()
+    stream_ << " " << std::this_thread::get_id()
             << " " << kLogSeverityNames[EnumToUnderlying(severity_level)]
             << " " << ExtractFileName(file) << "(" << line << ")]";
 }
