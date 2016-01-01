@@ -1,5 +1,5 @@
 /*
-@ 0xCCCCCCCC
+ @ 0xCCCCCCCC
 */
 
 #if defined(_MSC_VER)

@@ -1,5 +1,5 @@
 /*
-@ 0xCCCCCCCC
+ @ 0xCCCCCCCC
 */
 
 #include "klog/klog_worker.h"
