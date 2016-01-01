@@ -18,9 +18,11 @@ namespace klog {
 #if defined(OS_WIN)
 using PathChar = wchar_t;
 using PathString = std::wstring;
+#define PATH_LITERAL(str) L##str
 #else
 using PathChar = char;
 using PathString = std::string;
+#define PATH_LITERAL(str) str
 #endif
 
 }   // namespace klog
