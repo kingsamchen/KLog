@@ -9,10 +9,14 @@
 #ifndef KLOG_KLOG_FILE_H_
 #define KLOG_KLOG_FILE_H_
 
+#include <fstream>
+
 #include "klog/basic_macros.h"
 #include "klog/basic_types.h"
 
 namespace klog {
+
+class LogFileException;
 
 class LogFile {
 public:
@@ -24,7 +28,7 @@ public:
 
     DISALLOW_MOVE(LogFile);
 
-    void Append(const char* data, size_t size);
+    void Append(const char* data, size_t data_size);
 
     void Flush();
 
@@ -34,6 +38,7 @@ private:
 
 private:
     PathString file_path_;
+    std::ofstream file_;
 };
 
 }   // namespace klog
