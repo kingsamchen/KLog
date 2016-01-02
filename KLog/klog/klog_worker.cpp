@@ -4,7 +4,11 @@
 
 #include "klog/klog_worker.h"
 
+#include "klog/klog_file.h"
+
 namespace {
+
+namespace chrono = std::chrono;
 
 const size_t kDefaultBufferSize = 4 * 1024 * 1024;
 
@@ -12,8 +16,10 @@ const size_t kDefaultBufferSize = 4 * 1024 * 1024;
 
 namespace klog {
 
-LogWorker::LogWorker(const PathString& log_file_path, std::chrono::seconds flush_interval)
-    : log_file_path_(log_file_path), flush_interval_(flush_interval), done_(false)
+LogWorker::LogWorker(FileNameGenerator gen, chrono::seconds flush_interval, size_t roll_size,
+                     chrono::hours roll_interval)
+    : file_name_gen_(gen), flush_interval_(flush_interval), roll_size_(roll_size),
+      roll_interval_(roll_interval), done_(false)
 {
     working_buffer_.reserve(kDefaultBufferSize);
     backlog_buffer_.reserve(kDefaultBufferSize);
@@ -44,6 +50,7 @@ void LogWorker::WorkFunc()
 {
     Buffer relay_buffer;
     relay_buffer.reserve(kDefaultBufferSize);
+    LogFile log_file(file_name_gen_, roll_size_, roll_interval_);
     while (!done_.load(std::memory_order::memory_order_acquire)) {
         {
             std::unique_lock<std::mutex> lock(mutex_);
@@ -61,7 +68,7 @@ void LogWorker::WorkFunc()
             continue;
         }
 
-        // TODO: write to disk.
+        log_file.Append(relay_buffer.data(), relay_buffer.size());
         relay_buffer.clear();
     }
 }

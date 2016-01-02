@@ -22,8 +22,8 @@ namespace klog {
 
 class LogWorker {
 public:
-    // TODO: add rollsize for logfile.
-    LogWorker(const PathString& log_file_path, std::chrono::seconds flush_interval);
+    LogWorker(FileNameGenerator gen, std::chrono::seconds flush_interval, size_t roll_size,
+              std::chrono::hours roll_interval);
 
     ~LogWorker();
 
@@ -40,8 +40,10 @@ private:
     using Buffer = std::vector<char>;
 
 private:
-    PathString log_file_path_;
-    std::chrono::seconds flush_interval_;
+    FileNameGenerator file_name_gen_;
+    const std::chrono::seconds flush_interval_;
+    const size_t roll_size_;
+    const std::chrono::hours roll_interval_;
     Buffer working_buffer_;
     Buffer backlog_buffer_;
     std::atomic<bool> done_;

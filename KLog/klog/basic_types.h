@@ -9,6 +9,7 @@
 #ifndef KLOG_BASIC_TYPES_H_
 #define KLOG_BASIC_TYPES_H_
 
+#include <functional>
 #include <string>
 
 #include "klog/basic_macros.h"
@@ -24,6 +25,8 @@ using PathChar = char;
 using PathString = std::string;
 #define PATH_LITERAL(str) str
 #endif
+
+using FileNameGenerator = std::function<PathString()>;
 
 }   // namespace klog
 
