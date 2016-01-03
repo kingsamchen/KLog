@@ -90,13 +90,14 @@ void TestWhole()
         return file_name;
     };
 
-    klog::LogWorker worker(file_gen, chrono::seconds(3), 10 * 1024 * 1024, chrono::hours(24));
+    klog::LogWorker worker(file_gen, chrono::seconds(3), 10 * 1024 * 1024,
+                           chrono::duration_cast<chrono::hours>(chrono::seconds(3)));
     klog::ConfigureLogger(&worker);
 
     std::random_device rd;
     std::default_random_engine engine(rd());
     std::uniform_int_distribution<> dist(100, 1000);
-    int count = 10;
+    int count = 20;
     for (auto i = 0; i < count; ++i) {
         std::ostringstream ss;
         ss << "This is the " << i << "th trial";
