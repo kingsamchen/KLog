@@ -33,7 +33,7 @@ void OutputNowTimestamp(std::ostream& stream)
     time_t raw_time = chrono::system_clock::to_time_t(time_now);
     _localtime64_s(&local_time_now, &raw_time);
     stream << std::put_time(&local_time_now, "%Y%m%d %H:%M:%S.")
-           << us_part.count();
+           << std::setfill('0') << std::setw(6) << us_part.count();
 }
 
 const char* ExtractFileName(const char* file_path)
