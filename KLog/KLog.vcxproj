@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="klog\klog.cpp" />
+    <ClCompile Include="klog\klog_file.cpp" />
     <ClCompile Include="klog\klog_worker.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <ClInclude Include="klog\basic_macros.h" />
     <ClInclude Include="klog\basic_types.h" />
     <ClInclude Include="klog\klog.h" />
+    <ClInclude Include="klog\klog_file.h" />
     <ClInclude Include="klog\klog_worker.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
