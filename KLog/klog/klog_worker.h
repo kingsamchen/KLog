@@ -11,6 +11,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <memory>
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -37,18 +38,21 @@ private:
     void WorkFunc();
 
 private:
+    // TODO: Try to use fixed-buffer rather than normal std::vector to implement Buffer.
     using Buffer = std::vector<char>;
+    using BufferVector = std::vector<std::unique_ptr<Buffer>>;
 
 private:
     FileNameGenerator file_name_gen_;
     const std::chrono::seconds flush_interval_;
     const size_t roll_size_;
     const std::chrono::hours roll_interval_;
-    Buffer working_buffer_;
-    Buffer backlog_buffer_;
+    std::unique_ptr<Buffer> working_buffer_;
+    std::unique_ptr<Buffer> backlog_buffer_;
+    BufferVector buffer_bridge_;
     std::atomic<bool> done_;
     std::mutex mutex_;
-    std::condition_variable cond_;
+    std::condition_variable bridge_not_empty_cond_;
     std::thread thread_;
 };
 

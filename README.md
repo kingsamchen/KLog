@@ -4,13 +4,13 @@
 
 A light-weight asynchronous logger using C++ 11.
 
-KLog supports log file rolling according to some given strategies, that why it's required for you to provide a method to generate log file name.
+KLog supports log file rolling according to some given strategies, that why you are required to provide a method for generating log file name.
 
 ### Compatibility
 
 Compilers that support C++ 11.
 
-It should also be noted that,  there are few secured-CRT functions only available in Visual Studio used, I plan to replace them with portable wrappers in the future.
+It should also be noted that, there are few secured-CRT functions only available in Visual Studio used, I plan to replace them with portable wrappers in the future.
 
 ### Usages and Samples
 
@@ -41,11 +41,3 @@ int main()
     LOG(ERROR) << "what-the-hell?";
 }
 ```
-
-### Known Issues
-
-KLog internally uses double-buffer mechanism handling log message pending and to reduce frequency of disk I/O.
-
-However, as with current implementation, if front-end writes messages too quickly to make the back-end capable of flushing received data to the disk, the front-end would no longer have usable buffer to write.
-
-As the matter of fact, I've already had a solution to work it out, and I will fix the issue in the future, along with the fix on non-portable CRT functions.
