@@ -4,6 +4,7 @@
 
 #include "klog/klog.h"
 
+#include <cassert>
 #include <iomanip>
 #include <thread>
 
@@ -77,6 +78,7 @@ void ConfigureLogger(LogWorker* logger)
 LogMessage::LogMessage(const char* file, int line, LogSeverity severity_level)
     : file_(file), line_(line), severity_(severity_level)
 {
+    assert(g_log_worker != nullptr);
     stream_ << "[";
     OutputNowTimestamp(stream_);
     stream_ << " " << std::this_thread::get_id()
